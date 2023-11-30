@@ -65,6 +65,7 @@ app.engine(
 
 app.use(express.json());
 
+//routes
 app.get("/",route.home);
 app.post('/vehicle', route.addVehicle);
 app.get("/vehicles",route.vehicles);

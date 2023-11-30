@@ -1,102 +1,102 @@
-// This function defines routes for handling various actions related to fuel consumption
-
-// The function takes a parameter 'fuelConsumption', for handling fuel consumption data
+// Define a module exporting a function that takes a 'fuelConsumption' object as a parameter
 export default function routes(fuelConsumption){
 
+    // Initialize variables for message, fuelMessage, and ids
     let message="";
     let fuelMessage="";
     let ids=[];
-async function home(req,res){
 
-    ids=await fuelConsumption.vehicles(); 
-req.flash("message",message);
-req.flash("fuel",fuelMessage)
-    res.render("index",{ids,
+    // Define an asynchronous function 'home' that takes 'req' and 'res' as parameters
+    async function home(req, res){
+        // Fetch vehicle IDs asynchronously and assign them to 'ids'
+        ids = await fuelConsumption.vehicles(); 
 
-    });
+        // Flash messages for the current request
+        req.flash("message", message);
+        req.flash("fuel", fuelMessage);
 
-}
-
-// async function addVehicle(req, res) {
-//     let description = req.body.description;
-//     let reg_number = req.body.regNumber;
-
-//     let result = await fuelConsumption.addVehicle(description, reg_number);
-
-//     console.log(result);
-
-//     if (result.message) {
-//         message = result.message;
-//     } else {
-//         message = "Successfully added new vehicle";
-//     }
-
-//     res.redirect("/");
-// }
-async function addVehicle(req, res) {
-    try {
-        const { description, regNumber } = req.body;
-
-        if(!description && !regNumber){
-            req.flash('error', 'Please enter description and reg_number');
-        }
-        else if (!description) {
-            req.flash('error', 'Description should not be blank');
-            // message = "Description should not be blank";
-        } else if (!regNumber) {
-            req.flash('error', 'Reg_Number should not be blank');
-            // message = "Reg_Number should not be blank";
-        } else {
-            const result = await fuelConsumption.addVehicle({ description, regNumber });
-
-            if (result.status === "error") {
-                message = result.message;
-            } else {
-                req.flash('success', 'Successfully added new vehicle');
-                // message = "Successfully added new vehicle";
-            }
-        }
-    } catch (error) {
-        console.error("Error adding vehicle:", error);
-        message = "An error occurred while adding the vehicle";
+        // Render the 'index' view with 'ids'
+        res.render("index", { ids });
     }
 
-    res.redirect("/");
+    // Define an asynchronous function 'addVehicle' that takes 'req' and 'res' as parameters
+    async function addVehicle(req, res) {
+        try {
+            // Destructure 'description' and 'regNumber' from the request body
+            const { description, regNumber } = req.body;
+
+            // Check if 'description' and 'regNumber' are both empty
+            if (!description && !regNumber){
+                req.flash('error', 'Please enter description and reg_number');
+            }
+            // Check if 'description' is empty
+            else if (!description) {
+                req.flash('error', 'Description should not be blank');
+                // message = "Description should not be blank";
+            } 
+            // Check if 'regNumber' is empty
+            else if (!regNumber) {
+                req.flash('error', 'Reg_Number should not be blank');
+                // message = "Reg_Number should not be blank";
+            } 
+            // If both 'description' and 'regNumber' are provided, attempt to add the vehicle
+            else {
+                const result = await fuelConsumption.addVehicle({ description, regNumber });
+
+                // Check the status of the result and update 'message' accordingly
+                if (result.status === "error") {
+                    message = result.message;
+                } else {
+                    req.flash('success', 'Successfully added new vehicle');
+                    // message = "Successfully added new vehicle";
+                }
+            }
+        } catch (error) {
+            console.error("Error adding vehicle:", error);
+            message = "An error occurred while adding the vehicle";
+        }
+
+        // Redirect to the home page
+        res.redirect("/");
+    }
+
+    // Define an asynchronous function 'vehicles' that takes 'req' and 'res' as parameters
+    async function vehicles(req, res){
+        // Fetch vehicles asynchronously and assign them to 'vehicles'
+        let vehicles = await fuelConsumption.vehicles();
+
+        // Render the 'vehicles' view with 'vehicles'
+        res.render("vehicles", { vehicles });
+    }
+
+    // Define an asynchronous function 'refuel' that takes 'req' and 'res' as parameters
+    async function refuel(req, res){
+        // Extract parameters from the request body
+        let id = req.body.id;
+        let liters = req.body.liters;
+        let amount = req.body.amount;
+        let distance = req.body.distance;
+        let isFull = req.body.filled;
+        let filled = isFull == "Yes" ? true : false;
+        let vehicle_id = Number(id);
+
+        // Perform a refueling operation and update 'fuelMessage' based on the result
+        let result = await fuelConsumption.refuel(vehicle_id, liters, amount, distance, filled);
+        result.status == "success" ? fuelMessage = "Successfully updated" : fuelMessage = result.message;
+
+        // Log the result to the console
+        console.log(result);
+
+        // Redirect to the home page
+        res.redirect("/");
+    }
+
+    // Return an object with the defined functions as properties
+    return {
+        home,
+        addVehicle,
+        vehicles,
+        refuel
+    }
 }
 
-async function vehicles(req,res){
-
-    let vehicles= await fuelConsumption.vehicles();
-
-    res.render("vehicles",{vehicles,
-
-    });
-}
-
-
-async function refuel(req,res){
-
-    let id=req.body.id;
-    let liters=req.body.liters;
-    let amount= req.body.amount;
-    let distance=req.body.distance;
-    let isFull= req.body.filled;
-    let filled= isFull=="Yes"? true:false;
-    let vehicle_id=Number(id);
-
-let result= await fuelConsumption.refuel(vehicle_id,liters,amount,distance,filled);
-result.status=="success"? fuelMessage="Successfully updated":fuelMessage=result.message;
-
-console.log(result);
-res.redirect("/");
-
-
-}
-
-return{
-    home,
-    addVehicle,
-    vehicles,
-    refuel
-}
-}
