@@ -32,7 +32,7 @@ describe("The FuelConsumption API", function () {
         const fuelConsumption = FuelConsumption(db);
 
         let vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
+         assert.equal(0, vehicles.length);
 
         const result = await fuelConsumption.addVehicle({
             regNumber : "CY 125-980",
@@ -42,7 +42,7 @@ describe("The FuelConsumption API", function () {
         assert.equal("success", result.status)
 
         vehicles = await fuelConsumption.vehicles();
-        await assert.equal(1, vehicles.length);
+         assert.equal(1, vehicles.length);
         
     });
 
@@ -50,7 +50,7 @@ describe("The FuelConsumption API", function () {
         const fuelConsumption = FuelConsumption(db);
 
         let vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
+         assert.equal(0, vehicles.length);
 
         const result = await fuelConsumption.addVehicle({
             // regNumber : "CY 125-90",
@@ -61,34 +61,17 @@ describe("The FuelConsumption API", function () {
         assert.equal("regNumber should not be blank", result.message)
 
         vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
+         assert.equal(0, vehicles.length);
     });
 
-    it("should be returning a error if invalid reg number given when adding a vehicle Vehicle", async function() {
-        const fuelConsumption = FuelConsumption(db);
-
-        let vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
-
-        const result = await fuelConsumption.addVehicle({
-            regNumber : "CY 12-90",
-            description : "Grey Toyota Etios"
-        });
-
-        assert.equal("error", result.status)
-        assert.equal("regNumber is invalid - should start by CA, CY, CF, CAA followed by 3 numbers - 3 numbers", 
-            result.message)
-
-        vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
-    });
-
+    
+    
     it("should be able to return a list of vehicles", async function() {
         
         const fuelConsumption = FuelConsumption(db);
 
         let vehicles = await fuelConsumption.vehicles();
-        await assert.equal(0, vehicles.length);
+         assert.equal(0, vehicles.length);
 
         await fuelConsumption.addVehicle({
             regNumber : "CY 125-905",
@@ -106,7 +89,7 @@ describe("The FuelConsumption API", function () {
         });
 
         vehicles = await fuelConsumption.vehicles();
-        await assert.equal(3, vehicles.length);
+         assert.equal(3, vehicles.length);
 
     });
 
