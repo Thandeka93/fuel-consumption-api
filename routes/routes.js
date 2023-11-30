@@ -69,10 +69,12 @@ export default function routes(fuelConsumption){
         res.render("vehicles", { vehicles });
     }
 
-    // Define an asynchronous function 'refuel' that takes 'req' and 'res' as parameters
-    async function refuel(req, res){
+  // Define an asynchronous function 'refuel' that takes 'req' and 'res' as parameters
+async function refuel(req, res) {
+    try {
         // Extract parameters from the request body
-        let id = req.body.id;
+        let input = req.body.id;
+        let id = input.slice(0, 2);
         let liters = req.body.liters;
         let amount = req.body.amount;
         let distance = req.body.distance;
@@ -82,14 +84,23 @@ export default function routes(fuelConsumption){
 
         // Perform a refueling operation and update 'fuelMessage' based on the result
         let result = await fuelConsumption.refuel(vehicle_id, liters, amount, distance, filled);
-        result.status == "success" ? fuelMessage = "Successfully updated" : fuelMessage = result.message;
 
-        // Log the result to the console
-        console.log(result);
+        // Check the status of the result and update 'fuelMessage' accordingly
+        if (result.status === "success") {
+            req.flash('success', 'Successfully updated');
+        } else {
+            req.flash('error', result.message);
+        }
 
-        // Redirect to the home page
-        res.redirect("/");
+    } catch (error) {
+        console.error("Error refueling:", error);
+        req.flash('error', 'An error occurred while refueling');
     }
+
+    // Redirect to the home page
+    res.redirect("/");
+}
+
 
     // Return an object with the defined functions as properties
     return {

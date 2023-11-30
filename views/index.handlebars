@@ -23,7 +23,7 @@
 </form>
 
 <h2>Refuel </h2>
-<p class="message">{{messages.fuel}}</p>
+
 <form action="/refuel" method="post">
 
 <label for="id">Vehicle Id: </label>
@@ -67,12 +67,6 @@ let successMessageElem = document.querySelector('.flash-success')
       successMessageElem.style.display = 'none'
 
     }, 3000)
-
-    setTimeout(function(){document.querySelector(".message").style.display="none" ;
-     messageElement.style.color = "green";
-},3000);
-
-document.querySelector(".message").style.display="block";
 
 
   </script>
