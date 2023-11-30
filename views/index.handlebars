@@ -1,14 +1,27 @@
 <div class="container">
 <h1>Add New Vehicle</h1>
+
+{{#if messages.error}}
+<div class="flash-error">
+    {{messages.error}}
+</div>
+{{/if}}
+
+{{#if messages.success}}
+<div class="flash-success">
+    {{messages.success}}
+</div>
+{{/if}}
+
 <p>{{messages.message}}</p>
 <form action="/vehicle" method="post">
-<label for="descr">Description: </label><input id="descr" type="text" name="description"/>
-<label for="reg">Reg_Number: </label><input id="reg" type="text" name="regNumber" />
-<button type="submit">Add Vehicle</button>
+    <label for="description">Description: </label><input id="description" type="text" name="description"/>
+    <label for="regNumber">Reg_Number: </label><input id="regNumber" type="text" name="regNumber" />
+    <button type="submit">Add Vehicle</button>
 </form>
 
 <h2>Refuel </h2>
-<form action="refuel" method="post">
+<form action="/refuel" method="post">
 
 <label for="id">Vehicle Description: </label>
 <select name="id">
@@ -29,4 +42,28 @@
 </select>
 <button type="submit">Refuel</button>
 </form>
+<form action="/vehicles" method="get">
+<div class="vvehicles">
+<button type="submit" id="redirect">View Vehicles</button>
 </div>
+</form>
+</div>
+
+<script>
+    // error messages display for 3seconds
+    let errorMessageElem = document.querySelector('.flash-error')
+  
+    setTimeout(()=>{
+      errorMessageElem.style.display = 'none'
+
+    },3000)
+//scuccess messages display for 3.5 seconds
+let successMessageElem = document.querySelector('.flash-success')
+
+    setTimeout(()=>{
+      successMessageElem.style.display = 'none'
+
+    }, 3000)
+
+
+  </script>

@@ -1,5 +1,4 @@
 // vehicleService.js
-
 export default function FuelConsumptionAPI(db) {
 
     async function addVehicle({ description, regNumber }) {
@@ -16,12 +15,13 @@ export default function FuelConsumptionAPI(db) {
                 message: "regNumber should not be blank"
             }
         }
-        
+
+
         const regex = /^(CA|CY|CF|CAA) \d{3}-\d{3}$/;
         if (!regex.test(regNumber)) {
             return {
                 status: "error",
-                message: "regNumber is invalid - should start  by CA, CY, CF, CAA followed by 3 numbers - 3 numbers"
+                message: "regNumber is invalid - should by CA, CY, CF, CAA followed by 3 numbers - 3 numbers"
             }
         }
 
@@ -134,8 +134,7 @@ export default function FuelConsumptionAPI(db) {
         addVehicle,
         vehicle,
         vehicles,
-        refuel,
-     
+        refuel
     }
 
 }
