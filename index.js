@@ -6,9 +6,11 @@ import session from 'express-session';
 import pgPromise from 'pg-promise';
 import Handlebars from 'handlebars';
 import 'dotenv/config';
-
 import FuelConsumption from './fuel-consumption.js';
 import FuelConsumptionAPI from './fuel-consumption-api.js';
+import routes from './routes/routes.js';
+
+const app = express();
 
 // Define the database connection string
 const connectionString = process.env.PGDATABASE_URL ||
@@ -19,9 +21,11 @@ const pgp = pgPromise();
 const db = pgp(connectionString);
 
 const fuelConsumption = FuelConsumption(db);
-const fuelConsumptionAPI = FuelConsumptionAPI(fuelConsumption)
+const fuelConsumptionAPI = FuelConsumptionAPI(fuelConsumption);
+const route= routes(fuelConsumption);
 
-const app = express();
+
+
 const PORT = process.env.PORT || 3000;
 
 // Set up Handlebars as the template engine
@@ -60,6 +64,11 @@ app.engine(
   app.use(flash());
 
 app.use(express.json());
+
+app.get("/",route.home);
+app.post('/vehicle', route.addVehicle);
+app.get("/vehicles",route.vehicles);
+app.post("refuel",route.refuel);
 
 app.get('/api/vehicles', fuelConsumptionAPI.vehicles);
 app.get('/api/vehicle', fuelConsumptionAPI.vehicle);

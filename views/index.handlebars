@@ -1,0 +1,32 @@
+<div class="container">
+<h1>Add New Vehicle</h1>
+<p>{{messages.message}}</p>
+<form action="/vehicle" method="post">
+<label for="descr">Description: </label><input id="descr" type="text" name="description"/>
+<label for="reg">Reg_Number: </label><input id="reg" type="text" name="regNumber" />
+<button type="submit">Add Vehicle</button>
+</form>
+
+<h2>Refuel </h2>
+<form action="refuel" method="post">
+
+<label for="id">Vehicle Description: </label>
+<select name="id">
+    {{#each ids}}
+    <option>{{this.id}}</option>
+    {{/each}}
+</select>
+
+<label for="liters">Liters: </label><input id="liters" type="number" name="liters"/>
+
+<label for="amount">Amount: </label><input id="amount" type="number" name="amount"/>
+
+<label for="distance">Distance: </label><input id="distance" type="number" name="distance"/>
+
+<select name="filled">
+    <option>Yes</option>
+    <option>No</option>
+</select>
+<button type="submit">Refuel</button>
+</form>
+</div>

@@ -1,0 +1,20 @@
+<div class="container">
+
+<h1>ALL VEHICLES</h1>
+
+<table>
+    <th>Description</th>
+    <th>Reg_Number</th>
+    {{#each vehicles}}
+    <tr>
+        <td>
+            {{this.description}}
+        </td>
+          <td>
+            {{this.reg_number}}
+        </td>
+    </tr>
+    {{/each}}
+</table>
+
+</div>
