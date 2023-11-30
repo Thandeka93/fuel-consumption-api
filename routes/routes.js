@@ -4,11 +4,13 @@
 export default function routes(fuelConsumption){
 
     let message="";
+    let fuelMessage="";
     let ids=[];
 async function home(req,res){
 
     ids=await fuelConsumption.vehicles(); 
 req.flash("message",message);
+req.flash("fuel",fuelMessage)
     res.render("index",{ids,
 
     });

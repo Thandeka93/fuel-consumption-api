@@ -2,13 +2,20 @@ import FuelConsumption from '../fuel-consumption.js';
 import pgPromise from 'pg-promise';
 import assert from 'assert';
 
-// Define the database connection string
-const connectionString = process.env.PGDATABASE_URL ||
-  'postgres://wifupwqs:wpIluzICkbJNGJBP_xkrE2igdvOze1ve@ella.db.elephantsql.com/wifupwqs'
-
-// Create a PostgreSQL database instance and connect to it
 const pgp = pgPromise();
-const db = pgp(connectionString);
+const DATABASE_URL=  "postgres://wifupwqs:wpIluzICkbJNGJBP_xkrE2igdvOze1ve@ella.db.elephantsql.com/wifupwqs";
+
+const config = { 
+	connectionString : DATABASE_URL
+}
+
+if (process.env.NODE_ENV == 'production') {
+	config.ssl = { 
+		rejectUnauthorized : false
+	}
+}
+
+const db = pgp(config);
 
 describe("The FuelConsumption API", function () {
 
@@ -69,7 +76,7 @@ describe("The FuelConsumption API", function () {
         });
 
         assert.equal("error", result.status)
-        assert.equal("regNumber is invalid - should by CA, CY, CF, CAA followed by 3 numbers - 3 numbers", 
+        assert.equal("regNumber is invalid - should start by CA, CY, CF, CAA followed by 3 numbers - 3 numbers", 
             result.message)
 
         vehicles = await fuelConsumption.vehicles();
