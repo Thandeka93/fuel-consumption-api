@@ -15,28 +15,6 @@ req.flash("message",message);
 
 }
 
-// async function addVehicle(req,res){
-
-//     let description=req.body.description;
-//     let reg_number=req.body.regNumber;
-
-  
-
-//     let result=await fuelConsumption.addVehicle(description,reg_number);
-   
-//     console.log(result)
-
-//     if(result.message){
-//         message=result.message;
-//     }
-//     else{
-//         message="Sucessfuly added new vehicle";
-//     }
-
-
-//     res.redirect("/");
-
-// }
 // async function addVehicle(req, res) {
 //     let description = req.body.description;
 //     let reg_number = req.body.regNumber;
@@ -83,9 +61,6 @@ async function addVehicle(req, res) {
 
     res.redirect("/");
 }
-
-
-
 
 async function vehicles(req,res){
 
