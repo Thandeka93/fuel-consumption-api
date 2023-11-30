@@ -1,23 +1,63 @@
-import pgPromise from 'pg-promise';
 import express from 'express';
+import { engine } from 'express-handlebars';
+import bodyParser from 'body-parser';
+import flash from 'express-flash';
+import session from 'express-session';
+import pgPromise from 'pg-promise';
+import Handlebars from 'handlebars';
+import 'dotenv/config';
 
 import FuelConsumption from './fuel-consumption.js';
 import FuelConsumptionAPI from './fuel-consumption-api.js';
 
+// Define the database connection string
+const connectionString = process.env.PGDATABASE_URL ||
+  'postgres://wifupwqs:wpIluzICkbJNGJBP_xkrE2igdvOze1ve@ella.db.elephantsql.com/wifupwqs'
+
+// Create a PostgreSQL database instance and connect to it
 const pgp = pgPromise();
-
-const connectionOptions = {
-    connectionString: process.env.DATABASE_URL || 'postgres://fuel:fuel@localhost:5432/fuel_consumption',
-    ssl: process.env.NODE_ENV === 'production', // Enable SSL in production
-};
-
-const db = pgp(connectionOptions);
+const db = pgp(connectionString);
 
 const fuelConsumption = FuelConsumption(db);
 const fuelConsumptionAPI = FuelConsumptionAPI(fuelConsumption)
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Set up Handlebars as the template engine
+app.engine(
+    'handlebars',
+    engine({
+      handlebars: Handlebars,
+      helpers: {
+        json: function (context) {
+          return JSON.stringify(context);
+        },
+      },
+    })
+  );
+  
+  // Set the view engine to Handlebars
+  app.set('view engine', 'handlebars');
+  
+  // Serve static files from the 'public' directory
+  app.use(express.static('public'));
+  
+  // Configure middleware for parsing request bodies
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  
+  // Set up session management with a secret key
+  app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: false,
+    })
+  );
+  
+  // Use the 'express-flash' middleware for flash messages
+  app.use(flash());
 
 app.use(express.json());
 

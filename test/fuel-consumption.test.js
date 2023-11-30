@@ -2,20 +2,13 @@ import FuelConsumption from '../fuel-consumption.js';
 import pgPromise from 'pg-promise';
 import assert from 'assert';
 
+// Define the database connection string
+const connectionString = process.env.PGDATABASE_URL ||
+  'postgres://wifupwqs:wpIluzICkbJNGJBP_xkrE2igdvOze1ve@ella.db.elephantsql.com/wifupwqs'
+
+// Create a PostgreSQL database instance and connect to it
 const pgp = pgPromise();
-const DATABASE_URL=  "postgresql://fuel:fuel@localhost:5432/fuel_consumption";
-
-const config = { 
-	connectionString : DATABASE_URL
-}
-
-if (process.env.NODE_ENV == 'production') {
-	config.ssl = { 
-		rejectUnauthorized : false
-	}
-}
-
-const db = pgp(config);
+const db = pgp(connectionString);
 
 describe("The FuelConsumption API", function () {
 
