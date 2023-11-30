@@ -38,3 +38,21 @@ body {
     color:#f8261f;
     text-align: center !important;
   }
+
+  .nb{
+    margin-bottom: 30px;
+    color: red;
+    font-style: italic;
+  }
+
+  .table{
+    margin-left: 530px !important;
+    /* margin-right: auto !important; */
+  }
+  .container1{
+    text-align: center;
+    background-color:#C0C0C0;
+    margin-top: 100px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  }

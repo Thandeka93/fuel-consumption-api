@@ -1,6 +1,8 @@
 <div class="container">
 <h1>Add New Vehicle</h1>
 
+<div class="nb">NB: reg_number format [CA, CY, CF, CAA followed by 3 numbers - 3 numbers]</div>
+
 {{#if messages.error}}
 <div class="flash-error">
     {{messages.error}}
@@ -13,7 +15,7 @@
 </div>
 {{/if}}
 
-<p>{{messages.message}}</p>
+
 <form action="/vehicle" method="post">
     <label for="description">Description: </label><input id="description" type="text" name="description"/>
     <label for="regNumber">Reg_Number: </label><input id="regNumber" type="text" name="regNumber" />
