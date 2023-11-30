@@ -31,7 +31,7 @@ body {
 }
 
 .flash-success{
-    color:#56d303;
+    color: green;
     text-align: center !important;
   }
   .flash-error{

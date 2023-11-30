@@ -85,6 +85,7 @@ async function refuel(req,res){
     let vehicle_id=Number(id);
 
 let result= await fuelConsumption.refuel(vehicle_id,liters,amount,distance,filled);
+result.status=="success"? fuelMessage="Successfully updated":fuelMessage=result.message;
 
 console.log(result);
 res.redirect("/");
