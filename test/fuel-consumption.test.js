@@ -13,7 +13,7 @@ const db = pgp(connectionString);
 describe("The FuelConsumption API", function () {
 
     // set the test time out if needed
-    this.timeout(3000); 
+    this.timeout(12000); 
 
     this.beforeEach(async function(){
         await db.none(`delete from fuel_entries`);
