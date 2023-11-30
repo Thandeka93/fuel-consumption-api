@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#vehicles-list,
+#add-vehicle-form,
+#refuel-form {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 10px;
+}
